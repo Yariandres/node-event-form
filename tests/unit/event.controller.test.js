@@ -9,6 +9,7 @@ describe("EventController.createEvent", () =>{
     });
 
     it("Should call EventModel.create", () => {
-        EventController.createEvent().toBeCalled();
+        EventController.createEvent();
+        expect(EventModel.create).toBeCalled();
     })
 });
