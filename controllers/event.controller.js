@@ -1,7 +1,7 @@
 
 const EventModel = require("../model/event.model");
 
-exports.createEvent = (req, res, next) => {
-    const createdModel = EventModel.create(req.body);
+exports.createEvent = async (req, res, next) => {
+    const createdModel = await EventModel.create(req.body);
     res.status(201).json(createdModel);
 };

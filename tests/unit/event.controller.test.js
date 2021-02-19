@@ -28,15 +28,15 @@ describe("EventController.createEvent", () =>{
         expect(EventModel.create).toBeCalledWith(newEvent);
     });
 
-    it("Should return 201 response code", () => {
-        EventController.createEvent(req, res, next);
+    it("Should return 201 response code", async () => {
+        await EventController.createEvent(req, res, next);
         expect(res.statusCode).toBe(201);
         expect(res._isEndCalled()).toBeTruthy();
     });
 
-    it("Should return json body in response", () => {
+    it("Should return json body in response", async () => {
         EventModel.create.mockReturnValue(newEvent);
-        EventController.createEvent(req, res, next);
+        await EventController.createEvent(req, res, next);
 
         expect(res._getJSONData()).toStrictEqual(newEvent);
     })

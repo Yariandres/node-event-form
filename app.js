@@ -1,10 +1,18 @@
 const express = require('express'); 
+const eventRoutes = require("./routes/event.routes");
 const app = express();
+const mongodb = require("./momgodb/mongodb.connect");
+
+mongodb.connect();
+
+app.use(express.json());
+
+app.use("/events", eventRoutes);
 
 app.get("/", (req, res) => {
     res.send("Hello world!")
 });
 
-const port = 3000;
-app.listen(port, () => console.log("Server running on port: " + port));
+module.exports = app;
+
 
