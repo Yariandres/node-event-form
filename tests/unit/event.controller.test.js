@@ -4,6 +4,7 @@ const httpMocks = require('node-mocks-http');
 const newEvent = require('../mock-data/new-event.json');
 
 EventModel.create = jest.fn();
+EventModel.find = jest.fn();
 
 let req, res, next;
 
@@ -11,6 +12,16 @@ beforeEach(() => {
 	req = httpMocks.createRequest();
 	res = httpMocks.createResponse();
 	next = jest.fn();
+});
+
+describe("EventController.getEvents", () => {
+    it("Should have a getEvents function", () => {
+        expect(typeof EventController.getEvents).toBe("function");
+    });
+    it("should call EventModel.find({})", async () => {
+        await EventController.getEvents(req, res, next);
+        expect(EventModel.find).toHaveBeenCalledWith({});
+    });
 });
 
 describe('EventController.createEvent', () => {

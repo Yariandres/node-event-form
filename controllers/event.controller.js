@@ -5,6 +5,10 @@ exports.createEvent = async (req, res, next) => {
 		const createdModel = await EventModel.create(req.body);
 		res.status(201).json(createdModel);
 	} catch (err) {
-        next(err);
-    }
+		next(err);
+	}
+};
+
+exports.getEvents = async (req, res, next) => {
+    EventModel.find({});
 };
