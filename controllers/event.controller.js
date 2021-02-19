@@ -10,5 +10,10 @@ exports.createEvent = async (req, res, next) => {
 };
 
 exports.getEvents = async (req, res, next) => {
-    EventModel.find({});
+	try {
+		const allEvents = await EventModel.find({});
+		res.status(200).json(allEvents);
+	} catch (err) {
+        next(err);
+    }
 };

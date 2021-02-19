@@ -2,6 +2,7 @@ const EventController = require('../../controllers/event.controller');
 const EventModel = require('../../model/event.model');
 const httpMocks = require('node-mocks-http');
 const newEvent = require('../mock-data/new-event.json');
+const allEvents = require('../mock-data/all-events.json');
 
 EventModel.create = jest.fn();
 EventModel.find = jest.fn();
@@ -14,14 +15,31 @@ beforeEach(() => {
 	next = jest.fn();
 });
 
-describe("EventController.getEvents", () => {
-    it("Should have a getEvents function", () => {
-        expect(typeof EventController.getEvents).toBe("function");
-    });
-    it("should call EventModel.find({})", async () => {
+describe('EventController.getEvents', () => {
+	it('Should have a getEvents function', () => {
+		expect(typeof EventController.getEvents).toBe('function');
+	});
+	it('should call EventModel.find({})', async () => {
+		await EventController.getEvents(req, res, next);
+		expect(EventModel.find).toHaveBeenCalledWith({});
+	});
+	it('Should return response with status code 200 and all events', async () => {
+		EventModel.find.mockReturnValue(allEvents);
+
+		await EventController.getEvents(req, res, next);
+		expect(res.statusCode).toBe(200);
+		expect(res._isEndCalled()).toBeTruthy();
+		expect(res._getJSONData()).toStrictEqual(allEvents);
+	});
+	it('should handle errors in getEvents', async () => {
+		const errorMessage = { message: "Error finding"};
+        const rejectedPromise = Promise.reject(errorMessage);
+
+        EventModel.find.mockReturnValue(rejectedPromise);
         await EventController.getEvents(req, res, next);
-        expect(EventModel.find).toHaveBeenCalledWith({});
-    });
+
+        expect(next).toHaveBeenCalledWith(errorMessage);
+	});
 });
 
 describe('EventController.createEvent', () => {
@@ -53,11 +71,11 @@ describe('EventController.createEvent', () => {
 
 	it('Should handle errors', async () => {
 		const errorMessage = { message: 'Date property missing' };
-        const rejectedpromise = Promise.reject(errorMessage);
+		const rejectedpromise = Promise.reject(errorMessage);
 
-        EventModel.create.mockReturnValue(rejectedpromise);
-        await EventController.createEvent(req, res, next);
+		EventModel.create.mockReturnValue(rejectedpromise);
+		await EventController.createEvent(req, res, next);
 
-        expect(next).toBeCalledWith(errorMessage);
+		expect(next).toBeCalledWith(errorMessage);
 	});
 });
