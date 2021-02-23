@@ -4,7 +4,7 @@ export default (events = [], action) => {
 		case "FETCH_ALL":	
 			return action.payload;
 		case "CREATE":
-			return events;
+			return [...events, action.payload];
 		default:
 			return events;
 	}
