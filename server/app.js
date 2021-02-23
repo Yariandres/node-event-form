@@ -2,10 +2,12 @@ const express = require('express');
 const eventRoutes = require('./routes/event.routes');
 const app = express();
 const mongodb = require('./momgodb/mongodb.connect');
+const cors = require("cors");
 
 mongodb.connect();
 
 app.use(express.json());
+app.use(cors());
 
 app.use('/events', eventRoutes);
 
