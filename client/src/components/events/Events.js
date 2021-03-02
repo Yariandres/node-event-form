@@ -1,23 +1,32 @@
-import React, { Fragment } from "react";
+import React from "react";
+import { Grid, CircularProgress } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
 import Event from "./event/Event";
 import useStyles from "../../styles";
 
 const Events = () => {
-    const events = useSelector((state) => state.events);
+   const events = useSelector((state) => state.events);
 
-    console.log(events);
+   const classes = useStyles();
 
-    const classes = useStyles();
-    return (
-        <Fragment>
-            <h1>Events</h1>
-        
-            <Event/>
-            <Event/>
-        </Fragment>
-    );
+   return !events.length ? (
+      <CircularProgress />
+   ) : (
+      <Grid
+         className={classes.container}
+         container
+         alignItems="stretch"
+         spacing={3}
+      >
+          { events.map((event) => (
+              <Grid key={event._id} item xs={12} sm={6}>
+                  <Event event={event}/>
+              </Grid>
+          ))}
+
+      </Grid>
+   );
 };
 
 export default Events;
