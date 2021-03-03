@@ -19,12 +19,11 @@ const Events = () => {
          alignItems="stretch"
          spacing={3}
       >
-          { events.map((event) => (
-              <Grid key={event._id} item xs={12} sm={6}>
-                  <Event event={event}/>
-              </Grid>
-          ))}
-
+         {events.map((event) => (
+            <Grid key={event._id} item xs={12} sm={6}>
+               <Event event={event} />
+            </Grid>
+         ))}
       </Grid>
    );
 };

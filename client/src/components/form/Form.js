@@ -49,6 +49,7 @@ const Form = () => {
                onChange={(e) =>
                   setEventData({
                      ...eventData,
+                     clear,
                      firstName: e.target.value,
                   })
                }
